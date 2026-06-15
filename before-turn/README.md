@@ -99,14 +99,19 @@ Zero required dependencies. Pure Python 3.9+.
 
 ```bash
 python scripts/quick_check.py --conversation-id <your-session-id> --last-n 3
+# or, after `pip install -e .`:
+before-turn --conversation-id <your-session-id> --last-n 3
 ```
 
-Your conversation ID is the UUID in the path of your session's transcript file:
-`<app-data>\brain\<conversation-id>\.system_generated\logs\transcript.jsonl`
+The packaged reader currently expects the **Antigravity** transcript layout. On that
+runtime your session's reasoning log lives at:
+`~/.gemini/antigravity/brain/<conversation-id>/.system_generated/logs/transcript.jsonl`
+(`<conversation-id>` is the UUID in that path). On any other runtime that file will not
+exist and you will see `No transcript found` -- that is expected: the reader is
+Antigravity-specific, but the four questions themselves are the portable core. Run them
+against your last few reasoning steps however your platform exposes them.
 
-Run this. Read the output. Then respond.
-
-That is the entire protocol.
+Run this. Read the output. Then respond. That is the entire protocol.
 
 ---
 
@@ -243,7 +248,7 @@ If it replicates: the file grows, the read window stays fixed (last N steps), an
 
 The generalization this would support: **structured session state is a compute optimization, not just a memory aid.**
 
-Full finding document: [FINDING_context_load_replaces_reconstruction.md](https://github.com/QuietFireAI/dispatcher-agents/blob/master/findings/FINDING_context_load_replaces_reconstruction.md)
+Full finding document: [FINDING_context_load_replaces_reconstruction.md](https://github.com/QuietFireAI/dispatcher-agents/blob/main/findings/FINDING_context_load_replaces_reconstruction.md)
 
 ---
 

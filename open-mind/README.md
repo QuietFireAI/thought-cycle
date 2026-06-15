@@ -79,7 +79,7 @@ uncertain" and ships certainty has produced a measurable behavioral inconsistenc
 whatever its weights were doing. Whether anticipated observation improves the
 underlying reasoning or only its presentation is an open question — Case Study 1
 cannot distinguish the two, and we have not pretended it can. See the stack-wide
-[EVIDENCE.md](https://github.com/QuietFireAI/dispatcher-agents/blob/master/EVIDENCE.md)
+[EVIDENCE.md](https://github.com/QuietFireAI/dispatcher-agents/blob/main/EVIDENCE.md)
 claims ledger.
 
 ### Case Study 2 — The A/B Test
