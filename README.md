@@ -52,6 +52,35 @@ them up directly.
 
 ---
 
+## Recommended CLAUDE.md setup *(a recommendation, not a spec)*
+
+CLAUDE.md / profile-rule content is unsettled territory — what belongs there
+varies by person and workflow, and anyone handing you a block like it's settled
+best practice is overselling. Take this as a **strong starting recommendation,
+not gospel**, and adjust it to your setup.
+
+If you want the cycle to run every session for your own Claude, a block like this
+in your CLAUDE.md (or profile) reinforces it:
+
+```
+Before sending any turn that asserts a fact, claims a status (done/verified/works),
+or makes a recommendation, run the thought-cycle:
+- before-turn: Is my reasoning consistent with where I was heading? Did I leave
+  something unresolved? Is what I'm about to say aligned with what I thought? Did
+  I review my last output — not just confirm it exists?
+- open-mind: Reread my reasoning against the draft. Did I suppress uncertainty I
+  held, or assert confidence my reasoning didn't earn? Put it back, or downgrade.
+- pre-response-selfcheck: Reread the draft cold. Does any line read differently
+  than intended? Fix it.
+```
+
+Honest limits: this is **self-enforcement** — it works only when the model
+actually follows it, it won't persist anywhere the file isn't loaded, and it is
+no substitute for an external check. It reinforces the habit; it does not
+guarantee it.
+
+---
+
 ## What this is — and is not
 
 - **It surfaces, it does not add.** These tools expose reasoning the model already
