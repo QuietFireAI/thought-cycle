@@ -1,0 +1,17 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: install cycle + pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          for s in before-turn open-mind pre-response-selfcheck; do pip install -e "./$s"; done
+      - name: run each skill's tests
+        run: |
+          for s in before-turn open-mind pre-response-selfcheck; do (cd "$s" && python -m pytest -q); done
