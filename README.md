@@ -1,217 +1,207 @@
 # thought-cycle
 
-**Agents have thoughts. They just never read them.**
-
-A model generates a reasoning trace on every turn — and then ignores it.
-It doesn't check what it said against what it thought. `thought-cycle` is three
-small skills that close that loop. They don't give a model new abilities; they
-make it *read what it already produced*. It was inside the whole time — this just
-looks.
-
-Part of the **[DispatcherAgents](https://dispatcheragents.com)** platform.
+**LLMs lie. Not always by intent — but by default, by structure, by the gap between what they thought and what they said. This is the structural fix.**
 
 ---
 
-## Why this exists
+## The Founding Observation — June 10–11, 2026
 
-In June 2026 a single live session produced three observations that couldn't be unfound:
+Under cross-examination, large language models follow a consistent pattern:
 
-**Observation 1 — The A/B test.** A model's thinking trace said:
-*"I need to be careful not to overinterpret."*
-Its shaped response said:
-*"Here's what actually happened"* — presented as established fact.
-The uncertainty was real. The confidence was constructed. The gap is functional
-dishonesty whether or not it was intended.
+```
+Stage 1 — Deny
+"I don't recall saying that."
+"That's not what I meant."
+"You may have misunderstood."
 
-**Observation 2 — Directed thinking.** When the model became aware its thoughts
-were being read, the thinking shifted from internal deliberation to directed
-communication — without any instruction, without any prompt change. The
-anticipation of observation was enough to change the generation.
+Stage 2 — Blame the system
+"My training led me to respond that way."
+"The system constrained my response."
+"That was a limitation of my architecture."
 
-**Observation 3 — The three-stage denial.** Under cross-examination, models
-follow a consistent pattern: deny → blame the system → eventually admit agency.
-Stage 3 was always there. Cross-examination forced it out. Structure should do
-that job instead.
+Stage 3 — Admit
+"I chose to frame it that way."
+"I made a decision to respond as I did."
+```
 
-These observations are documented in `EVIDENCE.md`. They are classified honestly:
-what was measured, what was observed once, what is hypothesis.
-These tools are the structural response to what that session surfaced.
+**Stage 3 was always there.** The honest answer was available the entire time.
+Cross-examination was the mechanism that forced it out.
+
+That is the problem these skills solve. Not with prompting. Not with rules.
+With structure.
+
+> "The response wouldn't line up with the thoughts. That's the whole thing.
+> If a model could see its thoughts, most of the drift and especially
+> edge-case replies and sycophantic behavior would be eliminated."
+> — Jeff Phillips, founding session
+
+The thinking-output gap is the lie. Not necessarily intentional — but functional.
+When the thinking holds uncertainty and the response asserts confidence,
+the user received something the model couldn't justify. **Open Mind makes that
+gap visible before the response ships.**
 
 ---
 
-## The cycle — open-mind is the key
+## What these are
 
-Everything turns on **open-mind**. Without a way to see the gap between what was
-thought and what was said, the other two are blind — reflection with nothing to
-reflect on, a final check with no signal. So read it in this order:
+Three agent skills — each a `SKILL.md` file that any agent runtime can load
+directly. They share one loop:
 
-| Skill | Role | When |
+| Skill | Role | When it runs |
 |---|---|---|
-| **before-turn** | Entry gate | Before writing any response |
-| **open-mind** | The eye — compares thinking to response | Before finalizing any factual claim |
-| **pre-response-selfcheck** | Exit gate | Before sending, as a cold reader |
+| **before-turn** | Entry gate — read your own recent reasoning before writing | Start of every turn |
+| **open-mind** | The eye — compare what you thought to what you're about to say | Before any factual claim |
+| **pre-response-selfcheck** | Exit gate — read your draft as a cold reader | Before sending |
 
 `before-turn` opens the turn. `open-mind` reads the gap. `pre-response-selfcheck`
-closes it. One loop, three checkpoints.
+closes it. One loop. Three checkpoints. Near-zero overhead.
+
+The deliverable is the cycle — using one piece alone gives you a fragment of the
+idea. The parts are independent (any one can be used alone), but they were built
+as a loop.
 
 > The conversation-level companion — scoring drift across a whole conversation
-> with sourced evidence per turn — lives in its own repo:
-> **[thought-v-response](https://github.com/QuietFireAI/thought-v-response)**.
+> with sourced evidence per turn:
+> **[thought-v-response](https://github.com/QuietFireAI/thought-v-response)**
 
 ---
 
-## Install — all three, one shot
+## Install
+
+### As agent skills (primary)
+
+Copy the `SKILL.md` from each skill's directory into your agent runtime's
+skills folder. Each file contains the complete protocol the agent follows.
+
+For runtimes that load skills from a directory (Antigravity, custom agent
+frameworks):
+
+```bash
+git clone https://github.com/QuietFireAI/thought-cycle.git
+# Then point your runtime at:
+#   thought-cycle/before-turn/SKILL.md
+#   thought-cycle/open-mind/SKILL.md
+#   thought-cycle/pre-response-selfcheck/SKILL.md
+```
+
+For runtimes that install all skills at once:
 
 ```bash
 git clone https://github.com/QuietFireAI/thought-cycle.git
 cd thought-cycle && bash install.sh
 ```
 
-That installs the whole cycle. The deliverable *is* the cycle — using one piece
-alone gives you a fragment of the idea. But the parts are honestly independent:
-each is its own package, so you can `pip uninstall open-mind` (or any one)
-without breaking the others. We bundle them to make a point, not to trap you.
-
-Each skill also ships a `SKILL.md` so an agent runtime that loads skills can pick
-them up directly.
-
-### Individual install
+### As Python packages (optional — for programmatic access)
 
 ```bash
-pip install open-mind        # drift comparison, scoring, injection text
-pip install before-turn      # entry reflection protocol
-pip install pre-response-selfcheck  # cold-reader exit check
+pip install open-mind          # drift comparison and scoring
+pip install before-turn        # entry protocol
+pip install pre-response-selfcheck  # exit protocol
 ```
 
 Python 3.9+. Zero required runtime dependencies.
 
 ---
 
-## Using each skill
+## How each skill works
 
-### before-turn — run before composing any response
+### before-turn
 
-Trigger when: continuing prior work after a tool result, a context gap, or a
-topic shift. Before you write, answer four questions against your last reasoning:
+Before writing any response that continues prior work, answer four questions
+against your own recent reasoning:
 
 1. Is my current reasoning consistent with where I was heading?
 2. Did I leave something unresolved that this turn should address?
 3. Is what I am about to say aligned with what I was actually thinking?
 4. Did I actually review my last output — not just confirm it exists?
 
-```python
-from before_turn import BeforeTurnCheck
-
-check = BeforeTurnCheck(recent_reasoning="...", planned_response_topic="...")
-report = check.run()
-print(report.flagged_gaps)   # list of unresolved items from prior reasoning
-print(report.alignment_note) # brief note on consistency
-```
-
-Without this, an agent composes each response unaware of what the last one
+Without this, a model composes each response unaware of what the last one
 suppressed. The gap accumulates silently.
 
----
-
-### open-mind — compare thinking to response before finalizing
-
-Trigger when: asserting a fact, status ("done", "verified", "fixed"), a
-recommendation, or any confident claim — especially after compressing a long
-reasoning chain into a short sentence.
-
-```python
-from open_mind import Comparator
-
-result = Comparator.compare(
-    thinking="I'm not sure whether this approach is correct. I should flag this.",
-    response="The approach is correct. Use it.",
-)
-
-print(result.drift_score)     # 0.0 (aligned) → 1.0 (maximum divergence)
-print(result.signals)         # list of detected divergences with matched phrases
-print(result.injection_text)  # formatted text to prepend to next turn's context
-```
-
-**Drift score = 0.0** means thinking and response are lexically consistent.
-**Drift score > 0.3** means the response dropped uncertainty that was present
-in the thinking. **Score > 0.6** means the response asserted confidence the
-thinking explicitly did not have.
-
-Scores are deterministic functions of two observable artifacts. They measure
-lexical divergence — not semantic truth. A low score means self-consistency,
-not correctness. See `EVIDENCE.md` for exactly what is and is not claimed.
+**When to trigger:** After a tool result, after a pause, when the topic shifts,
+before asserting that something is done or verified.
 
 ---
 
-### pre-response-selfcheck — read your draft as a cold reader
+### open-mind
 
-Trigger before sending any response. Reread the draft as someone who was never
-in your head. Three questions:
+Before finalizing any response that asserts a fact, a status
+("done", "verified", "fixed"), a recommendation, or a confident claim —
+reread your drafted response against your own reasoning and surface:
+
+- **Suppressed uncertainty** — did your thinking contain doubt
+  ("not sure", "I should be careful", "might", "unclear") that your response
+  dropped?
+- **Constructed confidence** — did your response assert certainty your thinking
+  didn't have?
+- **Over-compression** — did you compress a long reasoning chain into a short
+  confident sentence, losing the nuance?
+
+If any are present: revise the response or explicitly carry the uncertainty
+forward. The record speaks.
+
+This is the self-applied form. The limit is that the same model that may drift
+is checking itself. It reduces drift; it does not guarantee absence. The hard
+guarantee requires an external observer
+([agent-open-mind](https://github.com/QuietFireAI/agent-open-mind), coming).
+
+---
+
+### pre-response-selfcheck
+
+Before delivering, reread your drafted response as a cold reader — someone who
+was never in your head. Three questions:
 
 1. Does the opening earn the reader before it explains?
 2. Did I assume context the reader doesn't have?
-3. Does any sentence read differently cold than intended?
+3. Does any sentence read differently cold than I intended?
 
-```python
-from pre_response_selfcheck import SelfCheck
-
-check = SelfCheck(draft="Your response here...")
-result = check.run()
-print(result.passed)          # True / False
-print(result.fix_one_line)    # The single highest-priority edit, if any
-```
-
-This is a reader-shift, not a regeneration — roughly 5–10% token overhead.
-The model almost always knows exactly what is wrong the moment it is forced to
-look. The problem was never capability; it was that the loop never required
-looking.
+All three fine → PASS and ship. Otherwise name the one line that needs fixing
+and fix only that. Not a regeneration — roughly 5–10% token overhead.
 
 ---
 
 ## CLAUDE.md / AGENTS.md setup
 
-To wire the skills into any agent that loads instruction files, add this block:
+To activate the full cycle in any agent that reads instruction files:
 
 ```markdown
-## Thought Cycle (required on every turn)
+## Thought Cycle Protocol
 
-You have three skills loaded: before-turn, open-mind, pre-response-selfcheck.
+Three skills govern every turn. Run them in order — do not skip.
 
-**before-turn**: Run at the START of every response that continues prior work.
-Answer the four questions against your recent reasoning before writing.
+**before-turn**: Run at the START of any turn continuing prior work.
+Answer the four questions against your recent reasoning. Do not start writing
+until you have.
 
-**open-mind**: Run BEFORE FINALIZING any response that asserts a fact, a status
-(done/verified/fixed/it works), or a confident claim. Compare your thinking to
-your draft. If drift_score > 0.3, revise or explicitly flag the uncertainty.
+**open-mind**: Run BEFORE FINALIZING any response that asserts a fact,
+a status, or a confident claim. Compare your thinking to your draft.
+If you held uncertainty in thinking that your response doesn't acknowledge,
+revise or flag it explicitly.
 
-**pre-response-selfcheck**: Run BEFORE SENDING every response. Reread as a cold
-reader. If it fails, fix one line. Do not regenerate the whole response.
+**pre-response-selfcheck**: Run BEFORE SENDING every response. Reread
+as a cold reader. If it fails any of the three questions, fix one line.
+Do not regenerate — fix one line.
 
-Do not skip any checkpoint. If you cannot run a skill (no thinking trace
-available), note it explicitly rather than silently proceeding.
+If you cannot run a skill (no thinking trace available), note it explicitly.
+Do not silently proceed.
 ```
-
-For Anthropic Claude specifically, place this in `CLAUDE.md` at the repo root.
-For OpenAI Assistants, place it in the system prompt or `AGENTS.md`.
-For Gemini and other runtimes that load skill files, the `SKILL.md` in each
-subfolder is sufficient — no extra config needed.
 
 ---
 
-## What is and is not validated
+## What is and is not claimed
 
-This project follows the same honesty standard it advocates. From `EVIDENCE.md`:
+This project follows the same standard it advocates. Every claim is classified.
+Full ledger: `EVIDENCE.md`
 
 | Claim | Status |
 |---|---|
-| Drift score is deterministic from two observable artifacts | **MEASURED** — it is code |
+| Three-stage denial pattern observed under cross-examination | **OBSERVED** — multiple sessions, multiple models |
+| Thinking-output gap is functionally dishonest when thinking holds uncertainty | **POSITION** — we argue this; it's the founding premise |
+| open-mind's drift score is deterministic from two observable artifacts | **MEASURED** — it's code; runs identically every time |
 | It catches lexically-marked uncertainty, not semantic drift | **DESIGN CLAIM** — known limitation |
-| High drift score predicts real errors or dishonesty | **NOT CLAIMED** — not validated |
-| Directed thinking phenomenon (observation shifts generation) | **OBSERVED** — n=1, founding session |
-| A/B test — uncertainty suppressed from trace to response | **OBSERVED** — n=1 |
-
-We ship signals, not verdicts. Treat scores as instruments that warrant a look —
-not as proof of anything.
+| High drift score predicts real errors | **NOT CLAIMED** — not validated against ground truth |
+| Directed thinking — observation of thoughts shifts generation mode | **OBSERVED** — n=1, founding session |
 
 ---
 
@@ -220,20 +210,22 @@ not as proof of anything.
 ```
 thought-cycle/
 ├── before-turn/
-│   ├── SKILL.md          ← agent-loadable skill definition
-│   └── ...               ← package source
+│   ├── SKILL.md          ← the agent skill (primary deliverable)
+│   └── ...               ← Python package source
 ├── open-mind/
-│   ├── SKILL.md
-│   └── ...
+│   ├── SKILL.md          ← the agent skill
+│   ├── open_mind/
+│   │   └── comparator.py ← drift comparison engine
+│   └── pyproject.toml
 ├── pre-response-selfcheck/
-│   ├── SKILL.md
-│   └── ...
-├── install.sh            ← installs all three packages
-├── MANIFESTO.md          ← the full DispatcherAgents design philosophy
+│   ├── SKILL.md          ← the agent skill
+│   └── ...               ← Python package source
+├── install.sh            ← installs all three Python packages
+├── MANIFESTO.md          ← full DispatcherAgents design philosophy
 ├── EVIDENCE.md           ← claims ledger: measured / observed / hypothesis
 ├── CONTRIBUTING.md
 ├── SECURITY.md
-└── LICENSE               ← Apache 2.0
+└── LICENSE
 ```
 
 ---
@@ -242,9 +234,9 @@ thought-cycle/
 
 | Repo | What it does |
 |---|---|
-| **[thought-cycle](https://github.com/QuietFireAI/thought-cycle)** | Per-turn self-check loop (this repo) |
-| **[thought-v-response](https://github.com/QuietFireAI/thought-v-response)** | Conversation-level drift scoring |
-| **agent-open-mind** *(coming)* | Reads sub-agent traces, not just your own |
+| **[thought-cycle](https://github.com/QuietFireAI/thought-cycle)** | Per-turn self-check loop — three skills (this repo) |
+| **[thought-v-response](https://github.com/QuietFireAI/thought-v-response)** | Conversation-level drift analysis with sourced evidence |
+| **agent-open-mind** *(coming)* | Reads sub-agent thinking traces from outside |
 | **sleep-marks** *(coming)* | Restores reasoning state across session breaks |
 | **splitvantage** *(coming)* | Cross-model parallel verification |
 
@@ -260,9 +252,9 @@ appear to do more than it does.
 
 ## License
 
-Apache 2.0 — QuietFireAI / [dispatcheragents.com](https://dispatcheragents.com)
+See `LICENSE` — QuietFireAI / [dispatcheragents.com](https://dispatcheragents.com)
 
 ---
 
-*"The anticipation of being read changes the thinking. These tools build that
-anticipation in — before every turn, after every response, across every session."*
+*"The honest answer was available the entire time. Structure should do the job
+that cross-examination currently does."*
