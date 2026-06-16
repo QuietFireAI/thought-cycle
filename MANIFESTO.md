@@ -20,7 +20,7 @@ These tools make the agent look. At its own reasoning, at its own output, at the
 
 Each tool stands alone. Together they close the loop on a single turn — and on a session, and on a delegation.
 
-### 1. [before-turn](https://github.com/QuietFireAI/before-turn)
+### 1. before-turn
 **Governs entry into each response.**
 
 Before composing a response, the agent reads its own recent reasoning and answers four questions:
@@ -34,7 +34,7 @@ Without this, an agent composes each response unaware of what the last one suppr
 
 ---
 
-### 2. [pre-response-selfcheck](https://github.com/QuietFireAI/pre-response-selfcheck)
+### 2. pre-response-selfcheck
 **Governs exit from each response.**
 
 After generating output, before delivering it, the agent rereads it as a cold reader — someone who was never in the author's head. Three questions:
@@ -49,7 +49,7 @@ Without this, the model ships for the author's frame instead of the reader's —
 
 ---
 
-### 3. [agent-open-mind](https://github.com/QuietFireAI/agent-open-mind)
+### 3. agent-open-mind
 **Reads what sub-agents thought — not what they said.**
 
 In standard agent loops, a sub-agent's reasoning tokens are generated, logged, and never fed back into the context of the agent that produced them or the dispatcher that spawned them. This is verifiable from any framework's source — it does not rest on any model's say-so. agent-open-mind is the external observer that reads those traces and returns them to the dispatcher.
@@ -58,7 +58,7 @@ Without this, the dispatcher decides on shaped outputs alone. The reasoning unde
 
 ---
 
-### 4. [open-mind](https://github.com/QuietFireAI/open-mind)
+### 4. open-mind
 **Compares what the agent thought to what it said.**
 
 The thinking trace and the shaped response are two different artifacts. open-mind measures the distance between them — a drift score from 0.0 (aligned) to 1.0 (maximum divergence) — and surfaces what the response dropped.
@@ -69,7 +69,7 @@ The claim is precise. The drift score measures divergence between two observable
 
 ---
 
-### 5. [sleep-marks](https://github.com/QuietFireAI/sleep-marks)
+### 5. sleep-marks
 **Restores reasoning state across session breaks.**
 
 A standard handoff carries what was decided. sleep-marks carries *how the agent was reasoning when it decided* — the uncertainty that was live, the options still open, the questions left unanswered.
@@ -80,7 +80,7 @@ Without this, every restart loses the cognitive state and re-covers ground it al
 
 ---
 
-### 6. [splitvantage](https://github.com/QuietFireAI/splitvantage)
+### 6. splitvantage
 **Sends one task to two models — surfaces what each one's reasoning suppressed.**
 
 One model curates its own open questions; a second model, given the same task, surfaces the questions the first quietly dropped. In the founding session, the originating model named six open questions; the receiving model surfaced eleven — five the first had suppressed in its own curation. splitvantage automates that cross-examination so the effect can be tested at scale rather than asserted from a single run.
@@ -152,7 +152,7 @@ But the stack's *largest* claim — that generation can be governed at the agent
 
 ## TelsonBase
 
-[TelsonBase](https://github.com/QuietFireAI/TelsonBase) governs *what an agent is permitted to do* — permissions, audit, trust levels, escalation. It is the optional enterprise extension of this stack, not a prerequisite and not a seventh tool. The six cognitive tools run without it. When a deployment needs formal permission boundaries and tamper-evident audit trails, TelsonBase is there; until then it is referenced, not required.
+TelsonBase governs *what an agent is permitted to do* — permissions, audit, trust levels, escalation. It is the optional enterprise extension of this stack, not a prerequisite and not a seventh tool. The six cognitive tools run without it. When a deployment needs formal permission boundaries and tamper-evident audit trails, TelsonBase is there; until then it is referenced, not required.
 
 ---
 

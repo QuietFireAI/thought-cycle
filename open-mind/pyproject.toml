@@ -29,9 +29,9 @@ requires-python = ">=3.9"
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/QuietFireAI/open-mind"
-Repository = "https://github.com/QuietFireAI/open-mind"
-"Bug Tracker" = "https://github.com/QuietFireAI/open-mind/issues"
+Homepage = "https://github.com/QuietFireAI/thought-cycle"
+Repository = "https://github.com/QuietFireAI/thought-cycle"
+"Bug Tracker" = "https://github.com/QuietFireAI/thought-cycle/issues"
 "DispatcherAgents" = "https://dispatcheragents.com"
 
 [tool.setuptools.packages.find]

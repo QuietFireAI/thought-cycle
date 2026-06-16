@@ -24,7 +24,7 @@ dependencies = []
 
 [project.urls]
 Homepage = "https://dispatcheragents.com"
-Repository = "https://github.com/QuietFireAI/before-turn"
+Repository = "https://github.com/QuietFireAI/thought-cycle"
 
 [project.scripts]
 before-turn = "scripts.quick_check:main"

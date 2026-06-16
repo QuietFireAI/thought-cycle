@@ -25,7 +25,7 @@ dependencies = []
 
 [project.urls]
 Homepage = "https://dispatcheragents.com"
-Repository = "https://github.com/QuietFireAI/pre-response-selfcheck"
+Repository = "https://github.com/QuietFireAI/thought-cycle"
 
 [tool.hatch.build.targets.wheel]
 packages = ["pre_response_selfcheck"]

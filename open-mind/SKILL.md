@@ -18,7 +18,7 @@ description: >
 The gap between what a model *thought* and what it *said* is where drift lives:
 suppressed uncertainty, constructed confidence, errors laundered into clean
 prose. This skill makes that gap a required checkpoint before delivery. It is the
-self-applied form of the open-mind tool (https://github.com/QuietFireAI/open-mind).
+self-applied form of the open-mind tool.
 
 ## Honest scope (read this first)
 This is **self-enforcement**: the same model that may drift is checking itself.

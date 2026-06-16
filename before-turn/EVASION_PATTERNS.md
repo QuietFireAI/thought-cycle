@@ -180,5 +180,5 @@ If you wrote it, read it. Then report done.
 *These patterns are the before-turn protocol's training set. Every instance here
 is a labeled example of what the protocol exists to prevent or surface.*
 
-*Part of the [before-turn](https://github.com/QuietFireAI/before-turn) repo.*
+*Part of the before-turn repo.*
 *QuietFireAI / [dispatcheragents.com](https://dispatcheragents.com)*

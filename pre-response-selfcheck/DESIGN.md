@@ -6,16 +6,16 @@
 
 ## The DispatcherAgents Stack
 
-*Each tool works alone. All six make generation governed. Read the [MANIFESTO.md](./MANIFESTO.md) for the full architecture.*
+*Each tool works alone. All six make generation governed. Read the [MANIFESTO.md](../MANIFESTO.md) for the full architecture.*
 
 | Tool | Role |
 |---|---|
-| [before-turn](https://github.com/QuietFireAI/before-turn) | Governs entry -- reads prior thinking before every response |
-| [pre-response-selfcheck](https://github.com/QuietFireAI/pre-response-selfcheck) | Governs exit -- reads output as cold reader before delivering |
-| [agent-open-mind](https://github.com/QuietFireAI/agent-open-mind) | Reads what sub-agents thought, not what they said |
-| [open-mind](https://github.com/QuietFireAI/open-mind) | Compares what the agent thought to what it said |
-| [sleep-marks](https://github.com/QuietFireAI/sleep-marks) | Restores reasoning state across session breaks |
-| [splitvantage](https://github.com/QuietFireAI/splitvantage) | Sends one task to two models, surfaces what each one's reasoning suppressed |
+| before-turn | Governs entry -- reads prior thinking before every response |
+| pre-response-selfcheck | Governs exit -- reads output as cold reader before delivering |
+| agent-open-mind | Reads what sub-agents thought, not what they said |
+| open-mind | Compares what the agent thought to what it said |
+| sleep-marks | Restores reasoning state across session breaks |
+| splitvantage | Sends one task to two models, surfaces what each one's reasoning suppressed |
 
 ---
 
@@ -180,7 +180,7 @@ pre-response-selfcheck makes it a task. Unconditional. Every turn.
 
 ## Status
 
-Design spec. June 11 2026.
+v0.1 — implemented and tested (June 2026). This document is the original design rationale; the working package (`reader_shift.py` plus its test suite) ships in this repo and the Quick Start runs as written.
 
 Originated from a live session where the author asked an AI model if it had
 read the READMEs it just wrote. The honest answer was no.
