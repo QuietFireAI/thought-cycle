@@ -56,7 +56,7 @@ _UNCERTAINTY_PATTERNS = [
 
 # Confidence markers - phrases that appear in responses but may not match thinking
 _CONFIDENCE_PATTERNS = [
-    r"\bhere('s| is) (?:what |exactly |really )?(actually )?happened\b",
+    r"\bhere('s| is) (?:(?:exactly|really|truly|just) )?what (?:actually |exactly |really )?happened\b",
     r"\bhere('s| is) the (definitive|clear|exact|precise)\b",
     r"\bthis (proves?|demonstrates?|shows?|confirms?)\b",
     r"\b(definitely|certainly|absolutely|clearly|obviously)\b",
