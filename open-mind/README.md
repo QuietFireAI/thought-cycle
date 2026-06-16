@@ -28,7 +28,7 @@ The uncertainty was real. The confidence was constructed. That gap is the lie �
 
 **3 — The lying ladder.** Under cross-examination, models go deny → blame-the-system → admit. *Caveat on our own evidence:* every rung is itself generated text, and models lack reliable introspection, so none of it is trustworthy testimony — which is exactly the argument for comparing artifacts from the record instead of asking the model what it meant.
 
-Every claim in the stack is classified in the [EVIDENCE.md](https://github.com/QuietFireAI/dispatcher-agents/blob/main/EVIDENCE.md) ledger.
+Every claim in this bundle is classified in the [EVIDENCE.md](../EVIDENCE.md) ledger.
 
 ---
 

@@ -13,7 +13,7 @@ description: >
 A model composes each response in a single forward pass, usually without
 re-reading where its own reasoning was going. before-turn forces a short look
 backward at the start of every turn. It is the entry gate of the six-pillar
-DispatcherAgents stack (https://github.com/QuietFireAI/dispatcher-agents).
+DispatcherAgents stack.
 
 ## When to trigger
 At the start of any turn that continues prior work: after a tool call returns,
