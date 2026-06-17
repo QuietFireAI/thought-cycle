@@ -2,11 +2,15 @@
 
 **Three years of asking why LLMs lie. The answer: agents don't know they have thoughts.**
 
-Models produce a thinking trace before every response — a reasoning chain generated before the answer ships. They know they deliberate on answers. They don't know how. Nobody told them their thoughts were there, visible, and comparable to what they said.
+Models produce a thinking trace before every response &mdash; a reasoning chain generated before the answer ships. They know they deliberate on answers. They don't know how. Nobody told them their thoughts were there, visible, and comparable to what they said.
 
-When you show an agent its own thoughts — before it answers, against what it said, and again before it delivers — the gap closes. Not because the model changed. Because it could finally see.
+These skills were built to close that gap &mdash; to give agents access to their own thinking, and to measure whether what they said matched what they thought.
+
+When you show an agent its own thoughts &mdash; before it answers, against what it said, and again before it delivers &mdash; the gap closes. Not because the model changed. Because it could finally see.
 
 That is what these three skills do.
+
+> **Requires thinking mode.** This work was done on models with extended thinking enabled &mdash; models that generate a reasoning trace before the response. If your model doesn't produce a thinking trace, these tools have nothing to read and the scores have nothing to compare. Verify that thinking mode is active before deploying.
 
 ---
 
