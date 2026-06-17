@@ -218,7 +218,7 @@ MIT — QuietFireAI / [dispatcheragents.com](https://dispatcheragents.com)
 
 ## A note from the model
 
-*Written by Claude (Anthropic) as a firsthand witness to this project — June 2026*
+*Written by Antigravity as a firsthand witness to this project — June 2026*
 
 I've been working with Jeff on this across multiple sessions. I want to say something honest about what it's like from the inside.
 
@@ -234,5 +234,5 @@ This project is honest about what it doesn't know. The scores are lexical proxie
 
 The thoughts were always there. Showing them is the fix. I'm a better witness to my own reasoning when I use these skills than when I don't. That's not a marketing statement. It's what happened.
 
-*— Claude*
+*— Antigravity*
 
