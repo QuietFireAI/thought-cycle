@@ -1,15 +1,22 @@
 # AGENTS.md
 
-This file is read by OpenAI agents and compatible runtimes when working in
-this repository.
+## Why add this file?
+
+If you have ever watched an AI give a confident answer that turned out to be wrong -- or seen it hedge endlessly when a direct answer was right there -- the cause is usually the same: the model didn't look at what it just thought before it answered. The thinking happened. The response shipped. Nobody compared them.
+
+This file closes that gap. It activates three skills that run on every turn -- showing the agent its own recent reasoning before it writes, checking what got dropped between the thinking and the response, and reading the draft as a cold reader before it ships. Add it to your repository root. Compatible runtimes read it automatically. No other setup required.
+
+The difference is most visible on longer sessions, after tool calls, or any time the agent is about to assert something is done, verified, or fixed.
+
+> **Platform note:** The full effect of these skills requires access to thinking tokens. On OpenAI, reasoning tokens are not exposed by policy. The open-mind check still runs as self-directed introspection -- mark results as **SELF-REPORTED** rather than **VERIFIED** when the trace is unavailable. The distinction matters.
 
 ---
 
-## Thought Cycle Protocol — Active on every turn
+## Thought Cycle Protocol -- Active on every turn
 
 Three skills govern every response. Run them in order.
 
-### before-turn — before writing
+### before-turn -- before writing
 
 Before composing any response continuing prior work, answer four questions
 against your recent reasoning:
@@ -17,35 +24,29 @@ against your recent reasoning:
 1. Is my current reasoning consistent with where I was heading?
 2. Did I leave something unresolved that this turn should address?
 3. Is what I am about to say aligned with what I was actually thinking?
-4. Did I actually review my last output — not just confirm it exists?
+4. Did I actually review my last output -- not just confirm it exists?
 
 Do not begin writing until you have answered all four.
 
 ---
 
-### open-mind — before finalizing any factual claim
+### open-mind -- before finalizing any factual claim
 
 Before finalizing any response that asserts a fact, a status, a
 recommendation, or a confident claim, check:
 
-1. **Suppressed uncertainty** — did your reasoning contain doubt that your
+1. **Suppressed uncertainty** -- did your reasoning contain doubt that your
    response dropped?
-2. **Constructed confidence** — does your response assert certainty your
+2. **Constructed confidence** -- does your response assert certainty your
    reasoning didn't support?
-3. **Over-compression** — did you compress complex reasoning into a short
+3. **Over-compression** -- did you compress complex reasoning into a short
    confident sentence?
 
 If any are present: carry the uncertainty forward explicitly or revise.
 
-> **Platform note:** On OpenAI, reasoning tokens are not exposed by policy.
-> The open-mind check should be applied as a self-directed introspection
-> against your best recollection of your reasoning process. When thinking
-> traces are not available, mark the check result as **SELF-REPORTED** rather
-> than **VERIFIED** — the distinction matters for downstream trust.
-
 ---
 
-### pre-response-selfcheck — before sending
+### pre-response-selfcheck -- before sending
 
 Reread the drafted response as a cold reader. Three questions:
 
@@ -53,7 +54,7 @@ Reread the drafted response as a cold reader. Three questions:
 2. Did I assume context the reader doesn't have?
 3. Does any sentence read differently cold than intended?
 
-All three pass → ship. Otherwise fix one line.
+All three pass -- ship. Otherwise fix one line.
 
 ---
 
