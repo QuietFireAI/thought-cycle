@@ -2,13 +2,13 @@
 
 ## Why add this file?
 
-If you have ever watched an AI give a confident answer that turned out to be wrong -- or seen it hedge endlessly when a direct answer was right there -- the cause is usually the same: the model didn't look at what it just thought before it answered. The thinking happened. The response shipped. Nobody compared them.
+If you have ever watched an AI give a confident answer that turned out to be wrong, the cause is usually the same: the agent didn't look at what it just thought before it answered. The thinking happened. The response shipped. Nobody compared them.
 
 This file closes that gap. It activates three skills that run on every turn -- showing the agent its own recent reasoning before it writes, checking what got dropped between the thinking and the response, and reading the draft as a cold reader before it ships. Add it to your repository root. Compatible runtimes read it automatically. No other setup required.
 
-The difference is most visible on longer sessions, after tool calls, or any time the agent is about to assert something is done, verified, or fixed.
+> **Platform note:** The full effect requires access to thinking tokens. On OpenAI, reasoning tokens are not exposed by policy. The open-mind check still runs as self-directed introspection -- mark results as **SELF-REPORTED** rather than **VERIFIED** when the trace is unavailable. The distinction matters.
 
-> **Platform note:** The full effect of these skills requires access to thinking tokens. On OpenAI, reasoning tokens are not exposed by policy. The open-mind check still runs as self-directed introspection -- mark results as **SELF-REPORTED** rather than **VERIFIED** when the trace is unavailable. The distinction matters.
+Here is what runs on every turn.
 
 ---
 
