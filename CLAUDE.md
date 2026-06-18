@@ -2,11 +2,11 @@
 
 ## Why add this file?
 
-If you have ever watched an AI give a confident answer that turned out to be wrong -- or seen it hedge endlessly when a direct answer was right there -- the cause is usually the same: the model didn't look at what it just thought before it answered. The thinking happened. The response shipped. Nobody compared them.
+If you have ever watched an AI give a confident answer that turned out to be wrong, the cause is usually the same: the model didn't look at what it just thought before it answered. The thinking happened. The response shipped. Nobody compared them.
 
-This file closes that gap. It activates three skills that run on every turn -- showing the model its own recent reasoning before it writes, checking what got dropped between the thinking and the response, and reading the draft as a cold reader before it ships. Add it to your repository root. Claude reads it automatically. No other setup required.
+This file closes that gap. It activates three skills that run on every turn -- showing Claude its own recent reasoning before it writes, checking what got dropped between the thinking and the response, and reading the draft as a cold reader before it ships. Add it to your repository root. Claude reads it automatically. No other setup required.
 
-The difference is most visible on longer sessions, after tool calls, or any time the model is about to assert something is done, verified, or fixed.
+Here is what runs on every turn.
 
 ---
 
